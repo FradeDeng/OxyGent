@@ -1,0 +1,12 @@
+{
+  "class_attr": {
+    "class_name": "FunctionHub",
+    "needs_oxy_request": false
+  },
+  "arguments": {
+    "train_date": "2025-11-02",
+    "from_station_code": "XAY",
+    "to_station_code": "HZH",
+    "purpose_codes": "ADULT"
+  }
+}

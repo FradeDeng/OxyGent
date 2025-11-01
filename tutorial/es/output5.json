@@ -1,0 +1,10 @@
+{
+  "think": "已获取西安和杭州的主要车站代码。选择西安站(XAY)和杭州站(HZH)作为出发和到达站点。现在可以查询车票信息。",
+  "tool_name": "get_tickets",
+  "arguments": {
+    "train_date": "2025-11-02",
+    "from_station_code": "XAY",
+    "to_station_code": "HZH",
+    "purpose_codes": "ADULT"
+  }
+}

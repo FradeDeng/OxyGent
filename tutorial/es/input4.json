@@ -1,0 +1,9 @@
+{
+  "class_attr": {
+    "class_name": "FunctionHub",
+    "needs_oxy_request": false
+  },
+  "arguments": {
+    "city_names": "西安|杭州"
+  }
+}

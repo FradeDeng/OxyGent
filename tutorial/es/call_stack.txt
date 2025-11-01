@@ -1,0 +1,8 @@
+[ "user", "train_ticket_agent", "default_llm" ]
+[ "user", "train_ticket_agent", "get_current_date" ]
+[ "user", "train_ticket_agent", "default_llm" ]
+[ "user", "train_ticket_agent", "get_stations_of_city" ]
+[ "user", "train_ticket_agent", "default_llm" ]
+[ "user", "train_ticket_agent", "get_tickets" ]
+[ "user", "train_ticket_agent", "default_llm" ]
+[ "user", "train_ticket_agent" ]

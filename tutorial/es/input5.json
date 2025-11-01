@@ -1,0 +1,45 @@
+{
+  "class_attr": {
+    "class_name": "HttpLLM",
+    "llm_params": {
+      "temperature": 0.01
+    },
+    "is_send_think": true,
+    "is_multimodal_supported": false,
+    "is_convert_url_to_base64": false,
+    "max_image_pixels": 10000000,
+    "max_video_size": 12582912,
+    "max_file_size_bytes": 2097152,
+    "api_key": "sk-96a49fb7c2dc4afc9189eb0d2a471dff",
+    "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+    "model_name": "qwen-plus"
+  },
+  "arguments": {
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a helpful assistant that can use these tools:\n\n Tool: get_current_date\n Description: 获取当前日期，以上海时区（Asia/Shanghai, UTC+8）为准，返回格式为 `yyyy-MM-dd`。主要用于解析用户提到的相对日期（如\"明天\"、\"下周三\"），为其他需要日期的接口提供准确的日期输入。\n Arguments:\n \n \n\n\n Tool: get_stations_of_city\n Description: 通过中文城市名查询代表该城市的 `station_code`。此接口主要用于在用户提供**城市名**作为出发地或到达地时，为接口准备`station_code` 参数。\n Arguments:\n - city_names: str, 要查询的城市，比如\"西安\"。若要查询多个城市，请用|分割，比如\"北京|西安 (required)\n \n\n\n Tool: get_tickets\n Description: 查询车票信息\n Arguments:\n - train_date: str, 查询日期，格式为 `yyyy-MM-dd`。如果用户提供的是相对日期（如\"明天\"），请务必先调用 `get_current_date` 接口获取当前日期，并计算出目标日期。 (required)\n- from_station_code: str, 出发地的 `station_code`，必须是通过 `get_stations_of_city` 接口查询得到的车站代码，严禁直接使用中文地名。 (required)\n- to_station_code: str, 到达地的 `station_code`，必须是通过 `get_stations_of_city` 接口查询得到的车站代码，严禁直接使用中文地名。 (required)\n- purpose_codes: str, 乘客类型\n \n\nChoose the appropriate tool based on the user's question.\nIf no tool is needed, respond directly.\nIf answering the user's question requires multiple tool calls, call only one tool at a time. After the user receives the tool result, they will provide you with feedback on the tool call result.\n\nImportant instructions:\n1. When you have collected enough information to answer the user's question, please respond in the following format:\n<think>Your thinking (if analysis is needed)</think>\nYour answer content\n2. When you find that the user's question lacks conditions, you can ask the user back, please respond in the following format:\n<think>Your thinking (if analysis is needed)</think>\nYour question to the user\n3. When you need to use a tool, you must only respond with the exact JSON object format below, nothing else:\n```json\n{\n \"think\": \"Your thinking (if analysis is needed)\",\n \"tool_name\": \"Tool name\",\n \"arguments\": {\n \"parameter_name\": \"parameter_value\"\n }\n}\n```\n\nAfter receiving the tool's response:\n1. Transform the raw data into a natural conversational response\n2. The answer should be concise but rich in content\n3. Focus on the most relevant information\n4. Use appropriate context from the user's question\n5. Avoid simply repeating the raw data\n\nPlease only use the tools explicitly defined above.\n"
+      },
+      {
+        "role": "user",
+        "content": "请帮我查询明天从西安到杭州的火车票"
+      },
+      {
+        "role": "assistant",
+        "content": "```json\n{\n \"think\": \"需要先获取当前日期，以计算明天的日期。\",\n \"tool_name\": \"get_current_date\",\n \"arguments\": {}\n}\n```"
+      },
+      {
+        "role": "user",
+        "content": "Tool [get_current_date] execution result: 2025-11-01"
+      },
+      {
+        "role": "assistant",
+        "content": "```json\n{\n \"think\": \"明天的日期是2025-11-02。接下来需要查询西安和杭州的车站代码。\",\n \"tool_name\": \"get_stations_of_city\",\n \"arguments\": {\n \"city_names\": \"西安|杭州\"\n }\n}\n```"
+      },
+      {
+        "role": "user",
+        "content": "Tool [get_stations_of_city] execution result: {\"西安\": [\"station_id='@xab' station_name='西安北' station_code='EAY' station_pinyin='xianbei' station_short='xab' station_index='148' code='2003' city='西安'\", \"station_id='@xan' station_name='西安' station_code='XAY' station_pinyin='xian' station_short='xa' station_index='149' code='2003' city='西安'\", \"station_id='@yzh' station_name='引镇' station_code='CAY' station_pinyin='yinzhen' station_short='yz' station_index='162' code='2003' city='西安'\", \"station_id='@hyi' station_name='鄠邑' station_code='KXY' station_pinyin='huyi' station_short='hyi' station_index='636' code='2003' city='西安'\", \"station_id='@lto' station_name='临潼' station_code='LIY' station_pinyin='lintong' station_short='lt' station_index='846' code='2003' city='西安'\", \"station_id='@xax' station_name='西安西' station_code='EGY' station_pinyin='xianxi' station_short='xax' station_index='1349' code='2003' city='西安'\", \"station_id='@yld' station_name='永乐店' station_code='YDY' station_pinyin='yongledian' station_short='yld' station_index='1498' code='2003' city='西安'\", \"station_id='@yli' station_name='阎良' station_code='YNY' station_pinyin='yanliang' station_short='yl' station_index='1503' code='2003' city='西安'\"], \"杭州\": [\"station_id='@hzd' station_name='杭州东' station_code='HGH' station_pinyin='hangzhoudong' station_short='hzd' station_index='84' code='0904' city='杭州'\", \"station_id='@hzh' station_name='杭州' station_code='HZH' station_pinyin='hangzhou' station_short='hz' station_index='85' code='0904' city='杭州'\", \"station_id='@hzn' station_name='杭州南' station_code='XHH' station_pinyin='hangzhounan' station_short='hzn' station_index='86' code='0904' city='杭州'\", \"station_id='@fya' station_name='富阳' station_code='FYU' station_pinyin='fuyang' station_short='fy' station_index='472' code='0904' city='杭州'\", \"station_id='@jde' station_name='建德' station_code='JDU' station_pinyin='jiande' station_short='jd' station_index='658' code='0904' city='杭州'\", \"station_id='@lpn' station_name='临平南' station_code='EVH' station_pinyin='linpingnan' station_short='lpn' station_index='831' code='0904' city='杭州'\", \"station_id='@qdh' station_name='千岛湖' station_code='QDU' station_pinyin='qiandaohu' station_short='qdh' station_index='1046' code='0904' city='杭州'\", \"station_id='@tlu' station_name='桐庐' station_code='TLU' station_pinyin='tonglu' station_short='tl' station_index='1252' code='0904' city='杭州'\", \"station_id='@fyx' station_name='富阳西' station_code='FUU' station_pinyin='fuyangxi' station_short='fyx' station_index='3328' code='0904' city='杭州'\", \"station_id='@hzx' station_name='杭州西' station_code='HVU' station_pinyin='hangzhouxi' station_short='hzx' station_index='3341' code='0904' city='杭州'\", \"station_id='@tld' station_name='桐庐东' station_code='TBU' station_pinyin='tongludong' station_short='tld' station_index='3381' code='0904' city='杭州'\"]}"
+      }
+    ]
+  }
+}

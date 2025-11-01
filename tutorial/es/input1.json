@@ -1,0 +1,29 @@
+{
+  "class_attr": {
+    "class_name": "HttpLLM",
+    "llm_params": {
+      "temperature": 0.01
+    },
+    "is_send_think": true,
+    "is_multimodal_supported": false,
+    "is_convert_url_to_base64": false,
+    "max_image_pixels": 10000000,
+    "max_video_size": 12582912,
+    "max_file_size_bytes": 2097152,
+    "api_key": "sk-96a49fb7c2dc4afc9189eb0d2a471dff",
+    "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+    "model_name": "qwen-plus"
+  },
+  "arguments": {
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a helpful assistant that can use these tools:\n\n Tool: get_current_date\n Description: 获取当前日期，以上海时区（Asia/Shanghai, UTC+8）为准，返回格式为 `yyyy-MM-dd`。主要用于解析用户提到的相对日期（如\"明天\"、\"下周三\"），为其他需要日期的接口提供准确的日期输入。\n Arguments:\n \n \n\n\n Tool: get_stations_of_city\n Description: 通过中文城市名查询代表该城市的 `station_code`。此接口主要用于在用户提供**城市名**作为出发地或到达地时，为接口准备`station_code` 参数。\n Arguments:\n - city_names: str, 要查询的城市，比如\"西安\"。若要查询多个城市，请用|分割，比如\"北京|西安 (required)\n \n\n\n Tool: get_tickets\n Description: 查询车票信息\n Arguments:\n - train_date: str, 查询日期，格式为 `yyyy-MM-dd`。如果用户提供的是相对日期（如\"明天\"），请务必先调用 `get_current_date` 接口获取当前日期，并计算出目标日期。 (required)\n- from_station_code: str, 出发地的 `station_code`，必须是通过 `get_stations_of_city` 接口查询得到的车站代码，严禁直接使用中文地名。 (required)\n- to_station_code: str, 到达地的 `station_code`，必须是通过 `get_stations_of_city` 接口查询得到的车站代码，严禁直接使用中文地名。 (required)\n- purpose_codes: str, 乘客类型\n \n\nChoose the appropriate tool based on the user's question.\nIf no tool is needed, respond directly.\nIf answering the user's question requires multiple tool calls, call only one tool at a time. After the user receives the tool result, they will provide you with feedback on the tool call result.\n\nImportant instructions:\n1. When you have collected enough information to answer the user's question, please respond in the following format:\n<think>Your thinking (if analysis is needed)</think>\nYour answer content\n2. When you find that the user's question lacks conditions, you can ask the user back, please respond in the following format:\n<think>Your thinking (if analysis is needed)</think>\nYour question to the user\n3. When you need to use a tool, you must only respond with the exact JSON object format below, nothing else:\n```json\n{\n \"think\": \"Your thinking (if analysis is needed)\",\n \"tool_name\": \"Tool name\",\n \"arguments\": {\n \"parameter_name\": \"parameter_value\"\n }\n}\n```\n\nAfter receiving the tool's response:\n1. Transform the raw data into a natural conversational response\n2. The answer should be concise but rich in content\n3. Focus on the most relevant information\n4. Use appropriate context from the user's question\n5. Avoid simply repeating the raw data\n\nPlease only use the tools explicitly defined above.\n"
+      },
+      {
+        "role": "user",
+        "content": "请帮我查询明天从西安到杭州的火车票"
+      }
+    ]
+  }
+}

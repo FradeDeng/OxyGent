@@ -1,0 +1,5 @@
+{
+  "think": "需要先获取当前日期，以计算明天的日期。",
+  "tool_name": "get_current_date",
+  "arguments": {}
+}
